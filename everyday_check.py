@@ -30,9 +30,87 @@ XZC_URL = "http://www.xzc.cn/"
 XZC_CODE = "11111111111"
 
 
+def jlu_check_new(screenshot=False, file_path=SAVE_PATH, i = ):
+    try:
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        browser = webdriver.Chrome(chrome_options=chrome_options)
+        wait = WebDriverWait(browser, 20)
+        browser.get(JLU_CHECK_URL)
+
+        ###  login in
+        # get login page element
+        user_input = wait.until(EC.presence_of_element_located((By.ID, "username")))
+        pw_input = wait.until(EC.presence_of_element_located((By.ID, "password")))
+        login_bt = wait.until(EC.element_to_be_clickable((By.ID, "login-submit")))
+        # interact with login page
+        user_input.send_keys(user_name)
+        pw_input.send_keys(password)
+        login_bt.click()
 
 
-def jlu_check(screenshot=False, file_path=SAVE_PATH):
+        ### more
+        # more
+        more_link = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".student-tabList > ul > li:nth-of-type(7) > a")))
+        more_link.click()
+
+        ### check
+        # find everyday check
+        check_link = wait.until(EC.element_to_be_lickable((By.CSS_SELECTOR, 'div.alk-servvice-nav > h2.alk-service-nav-title > a[title="研究生每日打卡"]')))
+        check_link.click()
+
+        # handle
+        handle_link = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".guide_title_center > .bt_2")))
+        handle_link.click()
+        # fill in and configure
+        handles = browser.window_handles
+        for newhandle in handles:
+            if newhandle != browser.current_window_handle:
+                browser.close()
+                browser.switch_to_window(newhandle)
+                break
+
+        # submit
+        submit_bt = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "ul.form_command_bar > li.command_button > a.command_button_content")))
+        submit_bt.click()
+
+        # dialog process
+        ok_bt = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".dialog_footer > .dialog_button.default.fr")))
+        ok_bt.click()
+        success = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.dialog_footer > button.dialog_button.default.fr")))
+
+        print(time.strftime("%Y-%m-%d %H:%M:%S check success!", time.localtime()))
+
+        ### screenshot
+        if screenshot:
+            body = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "html")))
+            time.sleep(2) # wait until the ok dialog display
+            file_name = time.strftime("%Y%m%d-%H.png", time.localtime())
+            if not os.path.exists(file_path):
+                os.makedirs(file_path)
+            abs_file_path = os.path.join(os.path.abspath(file_path), file_name)
+            body.screenshot(abs_file_path)
+            return abs_file_path
+        else:
+            return None
+        
+    except TimeoutException:
+        # print("Timeout! Please wait a minute and try again!")
+        # return None
+        time.sleep(60*30)
+        return jlu_check(file_path, screenshot)
+    except NoSuchElementException:
+        print("Source code has been changed. Please edit this code to fit it and try again!")
+        return None
+    except BaseException as e:
+        traceback.print_exc(e)
+        return None
+    finally:
+        browser.close()
+
+
+
+def jlu_check_old(screenshot=False, file_path=SAVE_PATH):
     try:
         chrome_options = Options()
         chrome_options.add_argument('--headless')
@@ -90,7 +168,7 @@ def jlu_check(screenshot=False, file_path=SAVE_PATH):
     except TimeoutException:
         # print("Timeout! Please wait a minute and try again!")
         # return None
-        time.sleep(60*30)
+        time.sleep(60*10)
         return jlu_check(file_path, screenshot)
     except NoSuchElementException:
         print("Source code has been changed. Please edit this code to fit it and try again!")
@@ -169,10 +247,13 @@ if __name__ == "__main__":
             upload_screenshot(abs_file_path)
 
     if args.everyday:
-        hour = int(7 + int(st_number[-2:]) / 60)
-        minute = int(st_number[-2:]) % 60
+        # hour = int(7 + int(st_number[-2:]) / 60)
+        minute = int(st_number[-2:]) % 10
 
-        schedule.every().day.at("{:0>2d}:{:0>2d}".format(hour, minute)).do(task)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(7, minute)).do(task)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(11, minute)).do(task)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(17, minute)).do(task)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(21, minute)).do(task)
         # schedule.every().day.at("{:0>2d}:{:0>2d}".format(15, 27)).do(task)
 
         while True:
