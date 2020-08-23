@@ -30,7 +30,7 @@ XZC_URL = "http://www.xzc.cn/"
 XZC_CODE = "11111111111"
 
 
-def jlu_check_new(screenshot=False, file_path=SAVE_PATH, i = ):
+def jlu_check(screenshot=False, file_path=SAVE_PATH, i = ):
     try:
         chrome_options = Options()
         chrome_options.add_argument('--headless')
