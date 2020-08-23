@@ -98,7 +98,10 @@ def jlu_check(screenshot=False, file_path=SAVE_PATH, i = ):
         # print("Timeout! Please wait a minute and try again!")
         # return None
         time.sleep(60*30)
-        return jlu_check(file_path, screenshot)
+        if time.localtime().tm_hour in [7, 11, 17, 21]
+            return jlu_check(file_path, screenshot)
+        else:
+            print("network problem! several tries all failed!")
     except NoSuchElementException:
         print("Source code has been changed. Please edit this code to fit it and try again!")
         return None
