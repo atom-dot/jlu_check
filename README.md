@@ -40,7 +40,7 @@
     conda install selenium -y
     conda install schedule -c jholdom -y
     conda install pandas -y
-  conda install xlrd -y
+    conda install xlrd -y
     conda install pywin32 -y
     ```
   
@@ -49,7 +49,7 @@
   
     ```
     pip install requests
-  pip install selenium
+    pip install selenium
     pip install schedule
     pip install pandas
     pip install xlrd
