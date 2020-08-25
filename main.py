@@ -34,11 +34,11 @@ if __name__ == "__main__":
         print("*"*45)
 
     ### 各部分功能的打包，便于在后面schedule中调用
-    def check_and_upload():
+    def check_and_upload(i):
         if args.old:
             abs_file_path = jlu_check_old(JLU_USERNAME, JLU_PASSWORD, SAVE_PATH)
         else:
-            abs_file_path = jlu_check(JLU_USERNAME, JLU_PASSWORD, **JLU_INFO, file_path=SAVE_PATH)
+            abs_file_path = jlu_check(JLU_USERNAME, JLU_PASSWORD, **JLU_INFO, nth=i, file_path=SAVE_PATH)
         if abs_file_path:
             assert SAVE_PATH != None
             upload_file(abs_file_path, XZC_CODE1, NAME_PART1, NAME_PART2)
@@ -84,17 +84,17 @@ if __name__ == "__main__":
         info_print("get_unchecked : get list success!")
 
     # # function test
-    # check_and_upload()
-    # get_unchecked_list(11)
-    # change_dir_by_time(2)
-    # sys.exit()
+    check_and_upload(2)
+    get_unchecked_list(3)
+    # change_dir_by_time(3)
+    sys.exit()
                 
 
     if args.old:
-        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, i)
     else:
         for i in CHECK_SCHEDULES:
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*i)).do(check_and_upload)
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*i)).do(check_and_upload, i)
     if args.change_dir:
         for i in range(len(CHANGE_DIR_SCHEDULES)):
             schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i)

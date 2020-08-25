@@ -10,6 +10,7 @@ from urllib.parse import urlencode
 import re
 import traceback
 import sys
+import time
 
 XZC_URL = "http://www.xzc.cn/"
 
@@ -43,11 +44,15 @@ def change_dir_name(username, password, xzc_code, dir_name):
         ### 修改目录名称
         browser.get(xzc_dir_url)
         # 点击标题
-        title = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.subject_text.edit-op > span.text"))).click()
+        title = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.subject_text.edit-op > span.text")))
+        time.sleep(2)
+        title.click()
+        time.sleep(2)
         # 输入标题
-        title_input = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.edit > input.form-control.input-lg"))).send_keys(dir_name)
+        wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.edit > input.form-control.input-lg"))).send_keys(dir_name)
+
         # 点击空白处，确保标题已修改
-        body = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "body"))).click()
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "body"))).click()
         # 点击下一步确认
         wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.btn-green"))).click()
         return True
