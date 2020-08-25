@@ -103,8 +103,8 @@
 
      ```python
      ### 健康打卡相关部分
-     JLU_USERNAME = "yujy19" # 校园网用户名
-     JLU_PASSWORD = "yujiayu867391" # 校园网密码
+     JLU_USERNAME = "liutd19" # 校园网用户名
+     JLU_PASSWORD = "liutiedan123456" # 校园网密码
      # 截图部分
      # SAVE_PATH = os.path.join(os.path.abspath('.'), "check_screenshot") # 默认截图保存页面
      SAVE_PATH = None # 设为None则表示不保存截图
@@ -114,7 +114,7 @@
          'grade' : "2019",            # 年级
          'campus' : "中心校区",        # 校区
          'apartment' : '南苑8公寓',    # 公寓楼号码
-         'bedroom' : '682',           # 寝室号
+         'bedroom' : '777',           # 寝室号
          'master' : True              # True表示为硕士，False表示为博士
      }
      ```
@@ -124,8 +124,8 @@
 
      ```python
      # 当上传文件时所要填的文件名，这里就用学号和姓名来命名了
-     NAME_PART1 = "2019542063" # 学号
-     NAME_PART2 = "于佳玉" # 姓名
+     NAME_PART1 = "2019111111" # 学号
+     NAME_PART2 = "刘铁蛋" # 姓名
      # 通用参数
      # 假如我的XZC的URL链接是http://www.xzc.cn/x877ZRj111
      XZC_CODE1 = "x877ZRj111" # XZC链接中的代码标识，可以有多个，但是我的main.py中修改dir和上传所用的是同一个所以就只写了一个
@@ -152,10 +152,10 @@
 
      ```python
      # 用户名和密码只有在change_dir_name()中会用到
-     XZC_USERNAME = "1578644088@qq.com" # 用户名
+     XZC_USERNAME = "157891011@qq.com" # 用户名
      XZC_PASSWORD = "yujiayu" # 密码
      
-     XZC_CODE1 = "x877ZRjDJ0" # XZC链接中的代码标识，可以有多个，但是我的main.py中修改dir和上传所用的是同一个所以就只写了一个
+     XZC_CODE1 = "x811ZRj111" # XZC链接中的代码标识，可以有多个，但是我的main.py中修改dir和上传所用的是同一个所以就只写了一个
      ```
 
      其中`XZC_USERNAME`和`XZC_PASSWORD`为XZC的用户名和密码。`XZC_CODE1`为所要修改的XZC链接的代码标识
