@@ -10,8 +10,8 @@
 
 * 环境要求
 
-  * Windows 10（weixin.py中用到了pywin32的库，如果不需要这部分，删掉之后可以适用于其他平台）
-* python 3.6（比较推荐的python版本，小问题比较少）
+  * Windows 10（weixin.py中用到了pywin32的库，如果不需要这部分，删掉之后可以适用于其他平台
+  * python 3.6（比较推荐的python版本，小问题比较少）
   
 * Anaconda
 
@@ -43,10 +43,10 @@
     conda install xlrd -y
     conda install pywin32 -y
     ```
-  
-  
+
+
   * 如果没有安装Anaconda，则可以通过pip安装
-  
+
     ```
     pip install requests
     pip install selenium
@@ -57,7 +57,7 @@
     ```
     
     
-  
+
   
 
 # 程序简要介绍
