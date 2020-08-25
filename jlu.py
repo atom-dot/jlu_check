@@ -80,7 +80,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
         # 体温状态
         if time.localtime().tm_hour != 21:
             css_code = {
-                0 : "table.xdLayout > tbody > tr:nth-last-child(4) > td:nth-child(3) > div > div > input:nth-child(1)",
+                0 : "table.xdLayout > tbody > tr:nth-last-child(8) > td:nth-child(3) > div > div > input:nth-child(1)",
                 1 : "table.xdLayout > tbody > tr:nth-last-child(6) > td:nth-child(3) > div > input:nth-child(1)",
                 2 : "table.xdLayout > tbody > tr:nth-last-child(4) > td:nth-child(3) > div > div > input:nth-child(1)"
             }.get(nth)
