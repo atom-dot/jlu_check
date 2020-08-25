@@ -42,7 +42,8 @@
     conda install pandas -y
   conda install xlrd -y
     conda install pywin32 -y
-  ```
+    ```
+  
   
   * 如果没有安装Anaconda，则可以通过pip安装
   
@@ -54,6 +55,8 @@
     pip install xlrd
     pip install pywin32
     ```
+    
+    
   
   
 
