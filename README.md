@@ -80,34 +80,6 @@
   weixin.py # 微信消息发送
   ```
 
-  
-
-整个程序分为两部分：一部分是jlu_check模拟登录打卡，一部分是upload_screenshot上传打卡截图，其中一些配置内容需要根据个人情况做修改
-
-* 模拟打卡相关部分（程序19-23行）
-  需要根据个人信息做修改，示例如下：
-
-  ```python
-  user_name = "wangjy19" # 自己的校园网用户名
-  password = "123456" # 自己的校园网密码
-  JLU_CHECK_URL = "https://ehall.jlu.edu.cn/jlu_portal/index" # 健康打卡系统登录页URL，这个不需要修改
-  SAVE_PATH = '.' # 打卡截图的保存路径，默认'.'即为程序当前路径，
-  ```
-
-* 截图上传部分（程序28-29行）
-  如果不需要截图上传功能则不需要修改这一部分。
-  主要是为了方便班级负责人统计班内同学打卡情况。这一部分利用了XZC上传到百度网盘中，需要根据班级负责人给定的的XZC的URL进行填写。而st_number和st_name部分就填写个人的姓名和学号，示例如下：
-
-  ```python
-  # 假如我的XZC的URL链接是http://www.xzc.cn/x877ZRj111
-  # 那么就分成两部分XZC_URL和XZC_CODE
-  st_number = "2019548063" # 学号
-  st_name = "张三" # 姓名
-  XZC_URL = "http://www.xzc.cn/"
-  XZC_CODE = "x877ZRj111"
-  ```
-
-  其中XZC是一个群收取文件并保存到百度网盘中的第三方工具，班级负责人如果有统计打卡情况的需求，则需要注册XZC账号并发放收取文件的链接。
 
 
 
