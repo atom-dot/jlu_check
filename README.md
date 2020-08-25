@@ -153,7 +153,7 @@
      ```python
      # 用户名和密码只有在change_dir_name()中会用到
      XZC_USERNAME = "157891011@qq.com" # 用户名
-     XZC_PASSWORD = "yujiayu" # 密码
+     XZC_PASSWORD = "liutiedan" # 密码
      
      XZC_CODE1 = "x811ZRj111" # XZC链接中的代码标识，可以有多个，但是我的main.py中修改dir和上传所用的是同一个所以就只写了一个
      ```
@@ -172,7 +172,7 @@
 
      ```python
      ### get unchecked list 相关参数
-     ACCESS_TOKEN = "121.493aab17d5f2018544b2b1a1b7a601c9.Ya6z5HyHaYDNktFCDPDiFaIQj020maXiwY7BVr5.k2__Pg" # 百度云的token，这样才能获取上传到百度云的文件列表
+     ACCESS_TOKEN = "121.493aab17d5f21111111111111111111111111111111DNktFCDPDiFaIQj020maXiwY7BVr5.k2__Pg" # 百度云的token，这样才能获取上传到百度云的文件列表
      CLOUD_PATH = '/apps/DzzCloud/' # XZC目录
      CHART_FILE_PATH = os.path.join(os.path.abspath('.'), '打卡.xlsx') # 当前程序目录下需要有一个【打卡.xlsx】记录所有打卡学生的姓名和学号
      CHATGROUP = "软学二班通知群" # 所要发送的微信群名称
