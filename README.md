@@ -1,7 +1,7 @@
 # 太长不想看只想打卡系列
 
 1. 按照**环境配置**装好环境
-2. 打开`main_config.py`文件并修改其中的`JLU_USERNAME`和`JLU_PASSWORD`为自己的校园网账号和密码
+2. 打开`main_config.py`文件并修改其中的`JLU_USERNAME`、`JLU_PASSWORD`和`JLU_INFO`为自己的校园网账号、校园网密码和校园网打卡信息。
 3. 在命令行中运行`python main.py`即可自动每天四次定时打卡
 
 
