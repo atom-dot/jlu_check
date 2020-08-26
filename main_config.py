@@ -51,7 +51,7 @@ CHECK_OLD_SCHEDULE = (7, minute)
 # 修改XZC目录名称的时间表
 CHANGE_DIR_SCHEDULES = [
     (6, 30),
-    (11, 30),
+    (10, 30),
     (16, 30),
     (20, 30)
 ]
