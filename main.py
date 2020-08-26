@@ -31,7 +31,7 @@ if __name__ == "__main__":
     def info_print(info):
         print(time.strftime("%Y%m%d-%H:%M:%S", time.localtime()) + "*" * 30)
         print(info)
-        print("*"*45)
+        print("*"*45 + "\n\n")
 
     ### 各部分功能的打包，便于在后面schedule中调用
     def check_and_upload(i):
@@ -63,12 +63,12 @@ if __name__ == "__main__":
             
             for i in range(len(students_name)):
 
-                def checked(number):
+                def checked(number, name):
                     for file_name in file_list:
-                        if str(number) in file_name : return True
+                        if number in file_name and name in file_name  : return True
                     return False
 
-                if not checked(students_number[i]):
+                if not checked(str(students_number[i]), students_name[i]):
                     text += "\n{}:{}".format(students_number[i], students_name[i])
         except FileNotFoundError as e:
             traceback.print_exc(e)
@@ -76,31 +76,34 @@ if __name__ == "__main__":
         except KeyError as e:
             traceback.print_exc(e)
             info_print("get_unchecked : file format error!")
-
-        if args.weixin:
-            send_text(CHATGROUP, text)
+        if len(text) == 0:
+            info_print("get_unchecked : all students checked!")
+            return
         else:
-            info_print("get_unchecked : unchecked students list:\n" + text)
-        info_print("get_unchecked : get list success!")
+            if args.weixin:
+                send_text(CHATGROUP, text+"\n\n请上述同学打完卡在群里回复一下，谢谢！")
+            else:
+                info_print("get_unchecked : unchecked students list:\n" + text)
+            info_print("get_unchecked : get list success!")
 
     # # function test
-    check_and_upload(2)
-    get_unchecked_list(3)
+    # check_and_upload(2)
+    # get_unchecked_list(3)
     # change_dir_by_time(3)
-    sys.exit()
+    # sys.exit()
                 
 
     if args.old:
-        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, i)
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, 1)
     else:
-        for i in CHECK_SCHEDULES:
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*i)).do(check_and_upload, i)
+        for i in range(len(CHECK_SCHEDULES)):
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_upload, i+1)
     if args.change_dir:
         for i in range(len(CHANGE_DIR_SCHEDULES)):
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i)
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i+1)
     if args.get_unchecked:
         for i in range(len(GET_UNCHECKED_SCHEDULES)):
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, i)
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, i+1)
     while True:
         schedule.run_pending()
         time.sleep(30)

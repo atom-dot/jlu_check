@@ -32,7 +32,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
     """
     try:
         chrome_options = Options()
-        # chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
         wait = WebDriverWait(browser, 20)
         browser.get(JLU_CHECK_URL)
@@ -78,11 +78,11 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
 
 
         # 体温状态
-        if time.localtime().tm_hour != 21:
+        if nth != 4:
             css_code = {
-                0 : "table.xdLayout > tbody > tr:nth-last-child(8) > td:nth-child(3) > div > div > input:nth-child(1)",
-                1 : "table.xdLayout > tbody > tr:nth-last-child(6) > td:nth-child(3) > div > input:nth-child(1)",
-                2 : "table.xdLayout > tbody > tr:nth-last-child(4) > td:nth-child(3) > div > div > input:nth-child(1)"
+                1 : "table.xdLayout > tbody > tr:nth-last-child(8) > td:nth-child(3) > div > div > input:nth-child(1)",
+                2 : "table.xdLayout > tbody > tr:nth-last-child(6) > td:nth-child(3) > div > input:nth-child(1)",
+                3 : "table.xdLayout > tbody > tr:nth-last-child(4) > td:nth-child(3) > div > div > input:nth-child(1)"
             }.get(nth)
             agree_box = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, css_code)))
             agree_box.click()

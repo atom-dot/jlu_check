@@ -7,7 +7,6 @@ import win32clipboard as w
 
 def find_window(chatroom):
     win = win32gui.FindWindow(None, chatroom)
-    print("找到群聊窗口：%x" % win)
     if win != 0:
         win32gui.ShowWindow(win, win32con.SW_SHOWMINIMIZED)
         win32gui.ShowWindow(win, win32con.SW_SHOWNORMAL)

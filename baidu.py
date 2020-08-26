@@ -24,7 +24,6 @@ def get_file_list(access_token, cloud_file_path):
     temp_params['parent_path'] = cloud_file_path
 
     url = baidu_link + urlencode(temp_params)
-    print(url)
 
     results = requests.get(url, headers=headers)
     file_names = []
