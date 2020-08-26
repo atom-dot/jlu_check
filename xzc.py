@@ -22,6 +22,7 @@ def change_dir_name(username, password, xzc_code, dir_name):
     try:
 
         chrome_options = Options()
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
         wait = WebDriverWait(browser, 20)

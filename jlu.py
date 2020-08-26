@@ -32,6 +32,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
     """
     try:
         chrome_options = Options()
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
         wait = WebDriverWait(browser, 20)
@@ -133,6 +134,7 @@ def jlu_check_old(username, password, file_path=None):
     """
     try:
         chrome_options = Options()
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
         wait = WebDriverWait(browser, 20)
