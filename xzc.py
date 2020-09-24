@@ -23,7 +23,7 @@ def change_dir_name(username, password, xzc_code, dir_name):
 
         chrome_options = Options()
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-        chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
         wait = WebDriverWait(browser, 20)
 
@@ -64,8 +64,8 @@ def change_dir_name(username, password, xzc_code, dir_name):
         traceback.print_exc(e)
         print("Source code has been changed. Please edit this code to fit it and try again!")
         sys.exit()
-    finally:
-        browser.close()
+    # finally:
+    #     browser.close()
 
 
 def upload_file(file_path, xzc_code, input1, input2):

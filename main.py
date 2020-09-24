@@ -10,6 +10,7 @@ from jlu import jlu_check, jlu_check_old
 from xzc import change_dir_name, upload_file
 from baidu import get_file_list
 from weixin import send_text
+from tecent import tecent_confirm, tecent_replace
 import sys
 
 
@@ -34,6 +35,13 @@ if __name__ == "__main__":
         print("*"*45 + "\n\n")
 
     ### 各部分功能的打包，便于在后面schedule中调用
+    def check_and_confirm(i):
+        result = jlu_check(JLU_USERNAME, JLU_PASSWORD, **JLU_INFO, nth=i, file_path=None)
+        if result == "success":
+            tecent_confirm(NAME_PART2, i, TECENT_XLXS_URL)
+        info_print("check : check success!")
+
+
     def check_and_upload(i):
         if args.old:
             abs_file_path = jlu_check_old(JLU_USERNAME, JLU_PASSWORD, SAVE_PATH)
@@ -87,23 +95,36 @@ if __name__ == "__main__":
             info_print("get_unchecked : get list success!")
 
     # # function test
+    # check_and_confirm(2)
     # check_and_upload(2)
     # get_unchecked_list(3)
-    # change_dir_by_time(3)
+    # change_dir_by_time(2)
     # sys.exit()
+
+    # tecent_replace(TECENT_XLXS_URL)
+    # time.sleep(3)
+
+
+
+    for i in range(len(CHECK_SCHEDULES)):
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_confirm, i+1)
+
+    schedule.every().day.at("06:00").do(tecent_replace, TECENT_XLXS_URL)
                 
 
-    if args.old:
-        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, 1)
-    else:
-        for i in range(len(CHECK_SCHEDULES)):
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_upload, i+1)
-    if args.change_dir:
-        for i in range(len(CHANGE_DIR_SCHEDULES)):
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i+1)
-    if args.get_unchecked:
-        for i in range(len(GET_UNCHECKED_SCHEDULES)):
-            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, i+1)
+    # if args.old:
+    #     schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, 1)
+    # else:
+    #     for i in range(len(CHECK_SCHEDULES)):
+    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_upload, i+1)
+    # if args.change_dir:
+    #     for i in range(len(CHANGE_DIR_SCHEDULES)):
+    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i+1)
+    # if args.get_unchecked:
+    #     for i in range(len(GET_UNCHECKED_SCHEDULES)):
+    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, int(i/2 + 1))
+    
+    
     while True:
         schedule.run_pending()
         time.sleep(30)

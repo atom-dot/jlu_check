@@ -35,7 +35,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
         chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
         chrome_options.add_argument('--headless')
         browser = webdriver.Chrome(chrome_options=chrome_options)
-        wait = WebDriverWait(browser, 20)
+        wait = WebDriverWait(browser, 30)
         browser.get(JLU_CHECK_URL)
 
         #  login
@@ -45,14 +45,14 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
 
         ### more
         # 更多服务
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".student-tabList > ul > li:nth-of-type(7) > a"))).click()
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".student-tabList > ul > li:nth-of-type(9) > a"))).click()
 
         ### check
         # 研究生每日打卡
         wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.alk-service-nav > h2.alk-service-nav-title > a[title="研究生每日打卡"]'))).click()
 
         # 我要办理
-        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, ".guide_title_center > .bt_2"))).click()
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.guide_title_center > input.bt_2[value='我要办理']"))).click()
 
         # close window
         handles = browser.window_handles
@@ -63,7 +63,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
                 break
 
         # fill in
-        major_input = wait.until(EC.presence_of_element_located((By.ID, "V1_CTRL40")))
+        major_input = wait.until(EC.visibility_of_element_located((By.ID, "V1_CTRL40")))
         major_input.clear()
         major_input.send_keys(major)
         Select(browser.find_element_by_id("V1_CTRL41")).select_by_visible_text(grade)
@@ -85,6 +85,7 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
                 2 : "table.xdLayout > tbody > tr:nth-last-child(6) > td:nth-child(3) > div > input:nth-child(1)",
                 3 : "table.xdLayout > tbody > tr:nth-last-child(4) > td:nth-child(3) > div > div > input:nth-child(1)"
             }.get(nth)
+            print(nth)
             agree_box = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, css_code)))
             agree_box.click()
 
@@ -107,14 +108,14 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
             body.screenshot(abs_file_path)
             return abs_file_path
         else:
-            return None
+            return "success"
         
-    except TimeoutException:
-        time.sleep(60*5)
-        if time.localtime().tm_hour in [7, 11, 17, 21]:
-            return jlu_check(username, password, major, grade, campus, apartment, bedroom, master, file_path)
-        else:
-            print("network problem! several tries all failed!")
+    # except TimeoutException:
+    #     time.sleep(60*5)
+    #     if time.localtime().tm_hour in [7, 11, 17, 21]:
+    #         return jlu_check(username, password, major, grade, campus, apartment, bedroom, master, file_path)
+    #     else:
+    #         print("network problem! several tries all failed!")
     except NoSuchElementException:
         print("Source code has been changed. Please edit this code to fit it and try again!")
         sys.exit()
