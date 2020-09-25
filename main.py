@@ -18,6 +18,8 @@ if __name__ == "__main__":
 
     ### 获取运行参数，来确定要运行的功能
     parser = argparse.ArgumentParser()
+    parser.add_argument('--replace', action='store_true', default=False,
+                        help='clear check log in tecent document')
     parser.add_argument('--old', action='store_true', default=False,
                         help='run health check everyday')
     parser.add_argument('--change_dir', action='store_true', default=False, 
@@ -35,10 +37,10 @@ if __name__ == "__main__":
         print("*"*45 + "\n\n")
 
     ### 各部分功能的打包，便于在后面schedule中调用
-    def check_and_confirm(i):
+    def check_and_confirm():
         result = jlu_check(JLU_USERNAME, JLU_PASSWORD, **JLU_INFO, nth=i, file_path=None)
         if result == "success":
-            tecent_confirm(NAME_PART2, i, TECENT_XLXS_URL)
+            tecent_confirm(NAME_PART2, TECENT_XLXS_URL)
         info_print("check : check success!")
 
 
@@ -100,29 +102,28 @@ if __name__ == "__main__":
     # get_unchecked_list(3)
     # change_dir_by_time(2)
     # sys.exit()
-
+    # for i in range(10):
+    #     tecent_confirm(NAME_PART2, TECENT_XLXS_URL)
+    # sys.exit()
     # tecent_replace(TECENT_XLXS_URL)
     # time.sleep(3)
-
-
-
-    for i in range(len(CHECK_SCHEDULES)):
-        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_confirm, i+1)
-
-    schedule.every().day.at("06:00").do(tecent_replace, TECENT_XLXS_URL)
                 
 
-    # if args.old:
-    #     schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, 1)
-    # else:
-    #     for i in range(len(CHECK_SCHEDULES)):
-    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_upload, i+1)
-    # if args.change_dir:
-    #     for i in range(len(CHANGE_DIR_SCHEDULES)):
-    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i+1)
-    # if args.get_unchecked:
-    #     for i in range(len(GET_UNCHECKED_SCHEDULES)):
-    #         schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, int(i/2 + 1))
+    if args.old:
+        schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_OLD_SCHEDULE)).do(check_and_upload, 1)
+    else:
+        for i in range(len(CHECK_SCHEDULES)):
+            # schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_upload, i+1)
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHECK_SCHEDULES[i])).do(check_and_confirm)
+    if args.change_dir:
+        for i in range(len(CHANGE_DIR_SCHEDULES)):
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CHANGE_DIR_SCHEDULES[i])).do(change_dir_by_time, i+1)
+    if args.get_unchecked:
+        for i in range(len(GET_UNCHECKED_SCHEDULES)):
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*GET_UNCHECKED_SCHEDULES[i])).do(get_unchecked_list, int(i/2 + 1))
+    if args.replace:
+        for i in range(len(CLEAR_CHECKED_SCHEDULES)):
+            schedule.every().day.at("{:0>2d}:{:0>2d}".format(*CLEAR_CHECKED_SCHEDULES[i])).do(tecent_replace, TECENT_XLXS_URL)
     
     
     while True:

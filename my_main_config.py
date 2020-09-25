@@ -29,6 +29,7 @@ XZC_PASSWORD = "yujiayu" # 密码
 NAME_PART1 = "2019542063" # 学号
 NAME_PART2 = "于佳玉" # 姓名
 # 通用参数
+# 假如我的XZC的URL链接是http://www.xzc.cn/x811ZRj111
 XZC_CODE1 = "x877ZRjDJ0" # XZC链接中的代码标识，可以有多个，但是我的main.py中修改dir和上传所用的是同一个所以就只写了一个
 
 
@@ -41,7 +42,6 @@ CHATGROUP = "软学二班通知群" # 所要发送的微信群
 
 ### schedules
 # 研究生每日打卡（一天四次）的时间表
-# minute = random.randint(1, 20)
 minute = 10
 CHECK_SCHEDULES = [
     (7, minute),
@@ -52,7 +52,7 @@ CHECK_SCHEDULES = [
 # 研究生每日打卡（一天一次）的时间表
 CHECK_OLD_SCHEDULE = (7, minute)
 # 修改XZC目录名称的时间表
-CHANGE_DIR_SCHEDULES = [
+CLEAR_CHECKED_SCHEDULES = CHANGE_DIR_SCHEDULES = [
     (6, 30),
     (10, 30),
     (16, 30),

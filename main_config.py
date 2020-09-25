@@ -52,7 +52,7 @@ CHECK_SCHEDULES = [
 # 研究生每日打卡（一天一次）的时间表
 CHECK_OLD_SCHEDULE = (7, minute)
 # 修改XZC目录名称的时间表
-CHANGE_DIR_SCHEDULES = [
+CLEAR_CHECKED_SCHEDULES = CHANGE_DIR_SCHEDULES = [
     (6, 30),
     (11, 30),
     (16, 30),

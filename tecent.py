@@ -5,13 +5,14 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 import time
 
 
-def tecent_confirm(name, count, url):
+def tecent_confirm(name, url):
     chrome_options = Options()
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(chrome_options=chrome_options)
     wait = WebDriverWait(browser,20)
 
@@ -20,7 +21,11 @@ def tecent_confirm(name, count, url):
     wait.until(EC.element_to_be_clickable((By.ID, "header-login-btn"))).click()
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div#id-login-tabs > div.qq"))).click()
     browser.switch_to.frame(wait.until(EC.presence_of_element_located((By.ID, "login_frame"))))
-    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out_focus"))).click()
+    try:
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out_focus"))).click()
+    except TimeoutException:
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out"))).click()
+    time.sleep(2)
     browser.switch_to.parent_frame()
     time.sleep(2)
 
@@ -30,8 +35,8 @@ def tecent_confirm(name, count, url):
     wait.until(EC.presence_of_element_located((By.ID, "search-panel-input"))).send_keys(name)
     time.sleep(2)
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div.dui-modal-mask.dui-modal-mask-visible > div > div.dui-modal-close"))).click()
-    for i in range(count):
-        browser.find_element_by_id('alloy-simple-text-editor').send_keys(Keys.TAB)
+
+    browser.find_element_by_id('alloy-simple-text-editor').send_keys(Keys.TAB)
 
     editor = wait.until(EC.element_to_be_clickable((By.ID, 'alloy-simple-text-editor')))
     editor.click()
@@ -44,7 +49,7 @@ def tecent_confirm(name, count, url):
 def tecent_replace(url):
     chrome_options = Options()
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    # chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(chrome_options=chrome_options)
     wait = WebDriverWait(browser, 20)
 
