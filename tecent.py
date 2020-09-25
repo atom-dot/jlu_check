@@ -51,16 +51,20 @@ def tecent_replace(url):
     chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
     chrome_options.add_argument('--headless')
     browser = webdriver.Chrome(chrome_options=chrome_options)
-    wait = WebDriverWait(browser, 20)
+    wait = WebDriverWait(browser,20)
 
     browser.get(url)
 
     wait.until(EC.element_to_be_clickable((By.ID, "header-login-btn"))).click()
     wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "div#id-login-tabs > div.qq"))).click()
     browser.switch_to.frame(wait.until(EC.presence_of_element_located((By.ID, "login_frame"))))
-    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out_focus"))).click()
+    try:
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out_focus"))).click()
+    except TimeoutException:
+        wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "span.img_out"))).click()
+    time.sleep(2)
     browser.switch_to.parent_frame()
-    time.sleep(5)
+    time.sleep(2)
 
     ActionChains(browser).key_down(Keys.CONTROL).key_down('f').perform()
     time.sleep(2)
