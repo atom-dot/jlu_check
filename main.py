@@ -5,7 +5,7 @@ import traceback
 import time
 import pandas as pd
 
-from main_config import *
+from my_main_config import *
 from jlu import jlu_check, jlu_check_old
 from xzc import change_dir_name, upload_file
 from baidu import get_file_list

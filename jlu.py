@@ -110,12 +110,12 @@ def jlu_check(username, password, major, grade, campus, apartment, bedroom, mast
         else:
             return "success"
         
-    # except TimeoutException:
-    #     time.sleep(60*5)
-    #     if time.localtime().tm_hour in [7, 11, 17, 21]:
-    #         return jlu_check(username, password, major, grade, campus, apartment, bedroom, master, file_path)
-    #     else:
-    #         print("network problem! several tries all failed!")
+    except TimeoutException:
+        time.sleep(60*5)
+        if time.localtime().tm_hour in [7, 11, 17, 21]:
+            return jlu_check(username, password, major, grade, campus, apartment, bedroom, master, file_path)
+        else:
+            print("network problem! several tries all failed!")
     except NoSuchElementException:
         print("Source code has been changed. Please edit this code to fit it and try again!")
         sys.exit()
